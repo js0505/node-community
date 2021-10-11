@@ -26,14 +26,14 @@ script:
   - docker push shinjs0505/node-community-backend
   - docker push shinjs0505/node-community-nginx
 
-# deploy:
-#   provider: elasticbeanstalk
-#   region: "us-east-2"
-#   app: "docker-fullstack-app"
-#   env: "Dockerfullstackapp-env"
-#   bucket_name: elasticbeanstalk-us-east-2-229674681585
-#   bucket_path: "docker-fullstack-app"
-#   on:
-#     branch: master
-#   access_key_id: $AWS_ACCESS_KEY
-#   secret_access_key: $AWS_SECRET_ACCESS_KEY
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "node-community"
+  env: "Nodecommunity-env"
+  bucket_name: elasticbeanstalk-us-east-2-229674681585
+  bucket_path: "node-community"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
