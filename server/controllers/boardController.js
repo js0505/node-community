@@ -1,0 +1,78 @@
+const { Board } = require("../models/Board")
+
+const createBoard = (req, res) => {
+	const board = new Board(req.body)
+	console.log(req.body)
+
+	board.save((err, result) => {
+		if (err) return res.status(400).json({ success: false, err })
+		return res.status(200).json({ success: true, result })
+	})
+}
+
+const searchBoard = (req, res) => {
+	let options = []
+	if (req.query.category == "title") {
+		options = [{ title: new RegExp(req.query.keyword) }]
+	} else if (req.query.category == "description") {
+		options = [{ description: new RegExp(req.query.keyword) }]
+	} else if (req.query.category == "name") {
+		options = [{ name: new RegExp(req.query.keyword) }]
+	} else {
+		const err = new Error("검색 옵션이 없습니다.")
+		err.status = 400
+		throw err
+	}
+	Board.find({ $or: options })
+		.populate("writer")
+		.exec((err, result) => {
+			if (err) return res.status(400).json({ success: false, err })
+			return res.status(200).json({ success: true, result })
+		})
+}
+
+const getBoardById = (req, res) => {
+	Board.findById(req.params.id)
+		.populate("writer")
+		.exec((err, result) => {
+			if (err) return res.status(400).json({ success: false, err })
+			return res.status(200).json({ success: true, result })
+		})
+}
+
+const updateBoardById = (req, res) => {
+	Board.findByIdAndUpdate(req.params.id, {
+		title: req.body.title,
+		description: req.body.description,
+	}).exec((err, result) => {
+		if (err) return res.status(400).json({ success: false, err })
+		return res.status(200).json({ success: true, result })
+	})
+}
+
+const deleteBoardById = (req, res) => {
+	Board.findByIdAndDelete(req.params.id).exec((err, result) => {
+		if (err) return res.status(400).json({ success: false, err })
+		return res.status(200).json({ success: true, result })
+	})
+}
+
+const getBoardByBIndex = (req, res) => {
+	console.log(req.query.bindex)
+	Board.find({ bindex: req.query.bindex })
+		.sort({ isFixed: -1, createdAt: -1 })
+		.populate("writer")
+		.exec((err, result) => {
+			if (err) return res.status(400).json({ success: false, err })
+			return res.status(200).json({ success: true, result })
+		})
+}
+
+module.exports = {
+	getBoardByBIndex,
+	createBoard,
+	getBoardById,
+	updateBoardById,
+	deleteBoardById,
+	searchBoard,
+}

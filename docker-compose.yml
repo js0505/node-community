@@ -1,0 +1,54 @@
+version: "2.4"
+services:
+  frontend:
+    image: shinjs0505/node-community-frontend
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    stdin_open: true
+    mem_limit: 128m
+  nginx:
+    restart: always
+    image: shinjs0505/node-community-nginx
+    ports:
+      - "80:80"
+    mem_limit: 128m
+    links:
+      - frontend
+      - backend
+  backend:
+    image: shinjs0505/node-community-backend
+    container_name: app_backend
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    environment:
+      MONGO_URI: $MONGO_URI
+    mem_limit: 128m
+# version: "3"
+# services:
+#   frontend:
+#     build:
+#       dockerfile: Dockerfile
+#       context: ./client
+#     volumes:
+#       - /app/node_modules
+#       - ./client:/app
+#     stdin_open: true
+#   nginx:
+#     restart: always
+#     build:
+#       dockerfile: Dockerfile
+#       context: ./nginx
+#     ports:
+#       - "3000:80"
+#   backend:
+#     build:
+#       dockerfile: Dockerfile
+#       context: ./server
+#     container_name: app_backend
+#     volumes:
+#       - /app/node_modules
+#       - ./server:/app
+#     environment:
+#       MONGO_URI: $MONGO_URI
