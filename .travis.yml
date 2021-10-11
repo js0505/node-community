@@ -5,15 +5,16 @@ sudo: required
 services:
   - docker
 
-# 테스트 하기위한 부분. 나중에 백엔드도 필요하면 추가 빌드해서 테스트 진행.
-before_install:
-  - docker build -t shinjs0505/node-community -f ./client/Dockerfile.dev ./client
-# 테스트 진행 스크립트
-script:
-  - docker run -e CI=true shinjs0505/node-community npm run test
+# # 테스트 하기위한 부분. 나중에 백엔드도 필요하면 추가 빌드해서 테스트 진행.
+# before_install:
+#   - docker build -t shinjs0505/node-community -f ./client/Dockerfile.dev ./client
+# # 테스트 진행 스크립트
+# script:
+#   - docker run -e CI=true shinjs0505/node-community npm run test
 
 # 위 테스트가 성공한 뒤의 진행
-after_success:
+# after_success:
+script:
   - docker build -t shinjs0505/node-community-frontend ./client
   - docker build -t shinjs0505/node-community-backend ./server
   - docker build -t shinjs0505/node-community-nginx ./nginx
