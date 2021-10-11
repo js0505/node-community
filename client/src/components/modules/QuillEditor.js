@@ -22,7 +22,7 @@ const QuillEditor = ({ value, onChange }) => {
 					withCredentials: true,
 				}
 				await axios
-					.post("http://localhost:5000/api/upload", formData, config)
+					.post("/api/upload", formData, config)
 					.then((res) => {
 						const quill = quillRef.current.getEditor()
 						const range = quill.getSelection()?.index
@@ -37,7 +37,7 @@ const QuillEditor = ({ value, onChange }) => {
                         위치 인덱스와 길이를 넣어주면 된다.*/
 						quill.clipboard.dangerouslyPasteHTML(
 							range,
-							`<img src='http://localhost:5000/${res.data.url}' alt="image" />`
+							`<img src='${res.data.url}' alt="image" />`
 						)
 					})
 					.catch((e) => console.log(e))

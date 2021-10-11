@@ -3,7 +3,7 @@ import { ADMISSION_USER, REFUSE_USER, WAITING_REGISTER_USER } from "./types"
 
 export function waitingRegisterUser() {
 	const request = axios
-		.get("http://localhost:5000/api/admin/admission", { withCredentials: true })
+		.get("/api/admin/admission", { withCredentials: true })
 		.then((res) => res.data)
 	return {
 		type: WAITING_REGISTER_USER,
@@ -16,7 +16,7 @@ export function admissionUser(id) {
 		id,
 	}
 	const request = axios
-		.put("http://localhost:5000/api/admin/admission", variables, {
+		.put("/api/admin/admission", variables, {
 			withCredentials: true,
 		})
 		.then((res) => res.data)
@@ -31,7 +31,7 @@ export function refuseUser(id) {
 		id,
 	}
 	const request = axios
-		.delete(`http://localhost:5000/api/admin/admission`, variables, {
+		.delete(`/api/admin/admission`, variables, {
 			withCredentials: true,
 		})
 		.then((res) => res.data)

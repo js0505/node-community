@@ -8,7 +8,7 @@ import {
 	SEARCH_BOARD,
 } from "./types"
 
-const boardAPI = "http://localhost:5000/api/board/"
+const boardAPI = "/api/board/"
 
 export function getBoardByBIndex(bindex) {
 	const request = axios

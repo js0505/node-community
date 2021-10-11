@@ -1,7 +1,7 @@
 import axios from "axios"
 import { ADD_SCRAP, DELETE_SCRAP, GET_SCRAP } from "./types"
 
-const scrapAPI = "http://localhost:5000/api/scrap/"
+const scrapAPI = "/api/scrap/"
 export function addScrap(body) {
 	const request = axios
 		.post(`${scrapAPI}`, body, {
