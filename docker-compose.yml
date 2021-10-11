@@ -18,7 +18,6 @@ services:
       - backend
   backend:
     image: shinjs0505/node-community-backend
-    container_name: app_backend
     volumes:
       - /app/node_modules
       - ./server:/app

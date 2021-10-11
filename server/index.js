@@ -16,14 +16,14 @@ const adminRoute = require("./routes/admin")
 const mainPageRoute = require("./routes/mainPage")
 
 // CORS
-const cors = require("cors")
+// const cors = require("cors")
 
-app.use(
-	cors({
-		origin: true,
-		credentials: true,
-	})
-)
+// app.use(
+// 	cors({
+// 		origin: true,
+// 		credentials: true,
+// 	})
+// )
 
 //각 주석의 형태의 데이터들을 가져올 수 있게 body-parser 옵션 설정
 // application/x-www-form-urlencoded
