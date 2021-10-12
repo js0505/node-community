@@ -8,4 +8,4 @@ RUN npm install --save --legacy-peer-deps
 
 COPY ./ ./
 
-CMD [ "npm", "run", "backend" ] 
+CMD [ "npm", "run", "start" ] 
