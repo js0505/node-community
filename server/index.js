@@ -3,7 +3,7 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
-const port = 5000
+const PORT = process.env.PORT || 5000
 
 const config = require("./config/key")
 
@@ -59,4 +59,4 @@ app.use("/api/upload", uploadRoute)
 app.use("/api/admin", adminRoute)
 app.use("/api/main", mainPageRoute)
 
-app.listen(port, () => console.log(`Example app listening on port ${port}`))
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}`))
