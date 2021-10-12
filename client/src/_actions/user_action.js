@@ -1,6 +1,6 @@
 import axios from "axios"
 import { LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER } from "./types"
-const userAPI = "http://localhost:5000/api/users"
+const userAPI = "/api/users"
 export function loginUser(body) {
 	const request = axios
 		.post(`${userAPI}/login`, body, {
