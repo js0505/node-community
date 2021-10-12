@@ -1,9 +1,9 @@
 import axios from "axios"
 import { LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER } from "./types"
-
+const userAPI = "http://localhost:5000/api/users"
 export function loginUser(body) {
 	const request = axios
-		.post("/api/users/login", body, {
+		.post(`${userAPI}/login`, body, {
 			withCredentials: true,
 		})
 		.then((res) => res.data)
@@ -14,7 +14,7 @@ export function loginUser(body) {
 }
 
 export function logoutUser() {
-	const request = axios.get("/api/users/logout", {
+	const request = axios.get(`${userAPI}/logout`, {
 		withCredentials: true,
 	})
 	return {
@@ -24,7 +24,7 @@ export function logoutUser() {
 }
 
 export function registerUser(body) {
-	const request = axios.post("/api/users/", body).then((res) => res.data)
+	const request = axios.post(`${userAPI}`, body).then((res) => res.data)
 	return {
 		type: REGISTER_USER,
 		payload: request,
@@ -33,7 +33,7 @@ export function registerUser(body) {
 
 export function auth() {
 	const request = axios
-		.get("/api/users/auth", { withCredentials: true })
+		.get(`${userAPI}/auth`, { withCredentials: true })
 		.then((res) => res.data)
 	return {
 		type: AUTH_USER,
