@@ -5,7 +5,7 @@ const fs = require("fs")
 let storage = multer.diskStorage({
 	// 파일 저장 위치
 	destination: (req, file, cb) => {
-		cb(null, "uploads/")
+		cb(null, "./uploads")
 	},
 	// 파일 저장 이름
 	filename: (req, file, cb) => {
@@ -38,7 +38,10 @@ const uploadImage = (req, res) => {
 				if (err) return res.json({ success: false, err: err })
 				return res.json({
 					success: true,
-					url: `uploads/boardImgs/resize-${req.file.filename}`,
+					url:
+						process.env.NODE_ENV === "production"
+							? `/api/uploads/boardImgs/resize-${req.file.filename}`
+							: `http://localhost:5000/api/uploads/boardImgs/resize-${req.file.filename}`,
 					fileName: res.req.file.filename,
 				})
 			})

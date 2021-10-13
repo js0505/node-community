@@ -2,7 +2,6 @@ const { Board } = require("../models/Board")
 
 const createBoard = (req, res) => {
 	const board = new Board(req.body)
-	console.log(req.body)
 
 	board.save((err, result) => {
 		if (err) return res.status(400).json({ success: false, err })
@@ -58,7 +57,6 @@ const deleteBoardById = (req, res) => {
 }
 
 const getBoardByBIndex = (req, res) => {
-	console.log(req.query.bindex)
 	Board.find({ bindex: req.query.bindex })
 		.sort({ isFixed: -1, createdAt: -1 })
 		.populate("writer")
