@@ -8,7 +8,12 @@ import {
 	SEARCH_BOARD,
 } from "./types"
 
-const boardAPI = "/api/board/"
+let boardAPI = ""
+if (process.env.NODE_ENV === "production") {
+	boardAPI = "/api/board/"
+} else {
+	boardAPI = "http://localhost:5000/api/board/"
+}
 
 export function getBoardByBIndex(bindex) {
 	const request = axios

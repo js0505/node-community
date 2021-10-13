@@ -50,7 +50,6 @@ const CreateBoard = () => {
 		ignoreQueryPrefix: true,
 	})
 
-
 	const onSubmitHandler = async () => {
 		if (title === "" || description === "") {
 			message.error("제목과 내용을 입력 해주세요.")
@@ -70,7 +69,7 @@ const CreateBoard = () => {
 			})
 			.catch((e) => console.log(e))
 	}
-
+	console.log(description)
 	return (
 		<Container>
 			<Form onSubmit={onSubmitHandler}>

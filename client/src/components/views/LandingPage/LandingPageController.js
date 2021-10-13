@@ -10,7 +10,7 @@ const LandingPageController = () => {
 		dispatch(getResentBoard()).then((res) =>
 			setGetResentBoards(res.payload.result)
 		)
-	}, [])
+	}, [dispatch])
 
 	return <LandingPage recentBoards={getRecentBoards} />
 }

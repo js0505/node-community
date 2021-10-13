@@ -1,7 +1,13 @@
 import axios from "axios"
 import { ADD_SCRAP, DELETE_SCRAP, GET_SCRAP } from "./types"
 
-const scrapAPI = "/api/scrap/"
+let scrapAPI = ""
+if (process.env.NODE_ENV === "production") {
+	scrapAPI = "/api/scrap/"
+} else {
+	scrapAPI = "http://localhost:5000/api/scrap/"
+}
+
 export function addScrap(body) {
 	const request = axios
 		.post(`${scrapAPI}`, body, {

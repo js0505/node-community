@@ -22,8 +22,9 @@ const QuillEditor = ({ value, onChange }) => {
 					withCredentials: true,
 				}
 				await axios
-					.post("/api/upload", formData, config)
+					.post("http://localhost:5000/api/upload", formData, config)
 					.then((res) => {
+						console.log(res.data)
 						const quill = quillRef.current.getEditor()
 						const range = quill.getSelection()?.index
 						//getSelection()은 현재 선택된 범위를 리턴한다. 에디터가 포커싱되지 않았다면 null을 반환한다.

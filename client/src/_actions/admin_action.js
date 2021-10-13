@@ -1,9 +1,15 @@
 import axios from "axios"
 import { ADMISSION_USER, REFUSE_USER, WAITING_REGISTER_USER } from "./types"
 
+let adminAPI = ""
+if (process.env.NODE_ENV === "production") {
+	adminAPI = "/api/admin/admission"
+} else {
+	adminAPI = "http://localhost:5000/api/admin/admission"
+}
 export function waitingRegisterUser() {
 	const request = axios
-		.get("/api/admin/admission", { withCredentials: true })
+		.get(adminAPI, { withCredentials: true })
 		.then((res) => res.data)
 	return {
 		type: WAITING_REGISTER_USER,
@@ -16,7 +22,7 @@ export function admissionUser(id) {
 		id,
 	}
 	const request = axios
-		.put("/api/admin/admission", variables, {
+		.put(adminAPI, variables, {
 			withCredentials: true,
 		})
 		.then((res) => res.data)
@@ -31,7 +37,7 @@ export function refuseUser(id) {
 		id,
 	}
 	const request = axios
-		.delete(`/api/admin/admission`, variables, {
+		.delete(adminAPI, variables, {
 			withCredentials: true,
 		})
 		.then((res) => res.data)

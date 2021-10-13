@@ -54,7 +54,7 @@ const BoardModule = () => {
 			setPosts(res.payload.result)
 			setLoading(false)
 		})
-	}, [dispatch])
+	}, [dispatch, query.bindex])
 
 	// indexOfLastPost는 해당 페이지에서 마지막 post의 index 번호를 가르킵니다.
 	// indexOfFirstPost는 해당 페이지에서 첫번째 post의 index 번호를 가르킵니다.

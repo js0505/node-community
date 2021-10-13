@@ -1,6 +1,13 @@
 import axios from "axios"
 import { LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER } from "./types"
-const userAPI = "/api/users"
+
+let userAPI = ""
+if (process.env.NODE_ENV === "production") {
+	userAPI = "/api/users"
+} else {
+	userAPI = "http://localhost:5000/api/users"
+}
+
 export function loginUser(body) {
 	const request = axios
 		.post(`${userAPI}/login`, body, {

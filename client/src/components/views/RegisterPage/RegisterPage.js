@@ -53,6 +53,8 @@ const RegisterPage = () => {
 					switch (res.payload.err.code) {
 						case 11000:
 							return message.error("해당 이메일이 이미 존재합니다.")
+						default:
+							return
 					}
 				}
 
