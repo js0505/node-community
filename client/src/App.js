@@ -26,11 +26,11 @@ const App = () => {
 				<Route exact path="/scrap/:id" component={Auth(ScrapPage, true)} />
 				<Route exact path="/board" component={Auth(BoardModule, null)} />
 				<Route exact path="/board/create" component={Auth(CreateBoard, true)} />
-				<Route exact path="/board/:id" component={Auth(BoardDetail, null)} />
+				<Route exact path="/board/:id" component={Auth(BoardDetail, true)} />
 				<Route
 					exact
 					path="/board/update/:id"
-					component={Auth(UpdateBoard, null)}
+					component={Auth(UpdateBoard, true)}
 				/>
 			</Switch>
 		</Router>

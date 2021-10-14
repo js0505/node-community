@@ -1,50 +1,39 @@
 const multer = require("multer")
-const sharp = require("sharp")
-const fs = require("fs")
+const multerS3 = require("multer-sharp-s3")
+const AWS = require("aws-sdk")
 
-let storage = multer.diskStorage({
-	// 파일 저장 위치
-	destination: (req, file, cb) => {
-		cb(null, "./uploads")
+const config = require("../config/key")
+
+const s3 = new AWS.S3({
+	accessKeyId: config.AWS_ACCESS_KEY,
+	secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+	region: "us-east-2",
+})
+
+let storage = multerS3({
+	s3: s3,
+	Bucket: config.AWS_S3_BUCKET,
+	contentType: multerS3.AUTO_CONTENT_TYPE,
+	ACL: "public-read",
+	resize: {
+		width: 800,
 	},
-	// 파일 저장 이름
-	filename: (req, file, cb) => {
-		cb(null, `${Date.now()}_${file.originalname}`)
-	},
-	// 확장자 필터
-	fileFilter: (req, file, cb) => {
-		const ext = path.extname(file.originalname)
-		// 쓰고싶은 확장자를 밑에 옵션으로 추가.
-		if (ext !== ".jpg" || ".png") {
-			return cb(res.status(400).end("only jpg, png is allowed"), false)
-		}
-		cb(null, true)
+	max: true,
+	Key: function (req, file, cb) {
+		cb(null, `images/${Date.now()}_${file.originalname}`)
 	},
 })
+
 const upload = multer({ storage: storage }).single("image")
 
 const uploadImage = (req, res) => {
 	upload(req, res, (err) => {
-		sharp(req.file.path) // 리사이징할 파일의 경로
-			.resize({ width: 800 }) // 원본 비율 유지하면서 width 크기만 설정
-			.withMetadata()
-			.toFile(`uploads/boardImgs/resize-${req.file.filename}`, (err, info) => {
-				if (err) throw err
-				fs.unlink(`${req.file.path}`, (err) => {
-					// 원본파일은 삭제해줍니다
-					// 원본파일을 삭제하지 않을거면 생략해줍니다
-					if (err) throw err
-				})
-				if (err) return res.json({ success: false, err: err })
-				return res.json({
-					success: true,
-					url:
-						process.env.NODE_ENV === "production"
-							? `/api/uploads/boardImgs/resize-${req.file.filename}`
-							: `http://localhost:5000/api/uploads/boardImgs/resize-${req.file.filename}`,
-					fileName: res.req.file.filename,
-				})
-			})
+		if (err) return res.json({ success: false, err: "this" })
+		return res.json({
+			success: true,
+			url: res.req.file.Location,
+			fileName: res.req.file.key,
+		})
 	})
 }
 

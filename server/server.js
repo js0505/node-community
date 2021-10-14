@@ -46,6 +46,7 @@ mongoose
 
 // static folder
 app.use("/api/uploads", express.static("uploads"))
+// app.use("/static/images", express.static("images"))
 
 app.get("/", (req, res) => res.send("Hello Express!!!"))
 app.get("/api/hello", (req, res) => res.send("test axios"))
