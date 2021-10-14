@@ -12,7 +12,7 @@ const s3 = new AWS.S3({
 
 let storage = multerS3({
 	s3: s3,
-	Bucket: config.AWS_S3_BUCKET,
+	Bucket: "elasticbeanstalk-us-east-2-229674681585",
 	contentType: multerS3.AUTO_CONTENT_TYPE,
 	ACL: "public-read",
 	resize: {
