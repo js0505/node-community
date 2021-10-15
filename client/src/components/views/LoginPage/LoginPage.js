@@ -55,12 +55,11 @@ const LoginPage = () => {
 			<PageHeader title={"로그인"} />
 			<SForm layout="vertical" onFinish={onSubmitHandler}>
 				<Form.Item
-					label="이메일"
 					name="email"
 					rules={[
 						{
 							required: true,
-							message: "Please input your Email!",
+							message: "이메일을 입력 해주세요.",
 						},
 					]}
 				>
@@ -68,17 +67,16 @@ const LoginPage = () => {
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						type="email"
-						placeholder="Email"
+						placeholder="이메일"
 					/>
 				</Form.Item>
 
 				<Form.Item
-					label="비밀번호"
 					name="password"
 					rules={[
 						{
 							required: true,
-							message: "Please input your Password!",
+							message: "비밀번호를 입력 해주세요.",
 						},
 					]}
 				>
@@ -86,12 +84,12 @@ const LoginPage = () => {
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						type="password"
-						placeholder="Password"
+						placeholder="비밀번호"
 					/>
 				</Form.Item>
 
 				<br />
-				<SButton htmlType="submit">Login</SButton>
+				<SButton htmlType="submit">로그인</SButton>
 				<br />
 				<p>
 					아직 회원이 아니신가요? <a href="/register">회원가입</a>

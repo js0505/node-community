@@ -40,8 +40,7 @@ const RegisterPage = () => {
 
 	const onSubmitHandler = () => {
 		if (password !== confirmPassword) {
-			alert("Password mismatch")
-			return
+			return message.error("비밀번호가 일치하지 않습니다.")
 		} else {
 			let body = {
 				name,
@@ -50,11 +49,8 @@ const RegisterPage = () => {
 			}
 			dispatch(registerUser(body)).then((res) => {
 				if (res.payload.err) {
-					switch (res.payload.err.code) {
-						case 11000:
-							return message.error("해당 이메일이 이미 존재합니다.")
-						default:
-							return
+					if (res.payload.err.code === 11000) {
+						return message.error("해당 이메일이 이미 존재합니다.")
 					}
 				}
 
@@ -70,12 +66,12 @@ const RegisterPage = () => {
 			<PageHeader title={"회원가입"} />
 			<SForm layout="vertical" onFinish={onSubmitHandler}>
 				<Form.Item
-					label="이름"
 					name="username"
 					rules={[
 						{
 							required: true,
-							message: "Please input your username!",
+							max: 10,
+							message: "이름은 10글자 이하로 입력 해주세요.",
 						},
 					]}
 				>
@@ -83,16 +79,15 @@ const RegisterPage = () => {
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						type="text"
-						placeholder="Username"
+						placeholder="이름"
 					/>
 				</Form.Item>
 				<Form.Item
-					label="이메일"
 					name="email"
 					rules={[
 						{
 							required: true,
-							message: "Please input your Email!",
+							message: "이메일을 입력 해주세요.",
 						},
 					]}
 				>
@@ -100,17 +95,17 @@ const RegisterPage = () => {
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						type="email"
-						placeholder="Email"
+						placeholder="이메일"
 					/>
 				</Form.Item>
 
 				<Form.Item
-					label="비밀번호"
 					name="password"
 					rules={[
 						{
 							required: true,
-							message: "Please input your Password!",
+							min: 5,
+							message: "비밀번호는 5글자 이상 입력 해주세요.",
 						},
 					]}
 				>
@@ -118,17 +113,19 @@ const RegisterPage = () => {
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						type="password"
-						placeholder="Password"
+						placeholder="비밀번호"
 					/>
 				</Form.Item>
 
 				<Form.Item
-					label="비밀번호 확인"
 					name="confirmPassword"
 					rules={[
 						{
 							required: true,
-							message: "Please input your Password!",
+							validator: (_, err) =>
+								password === confirmPassword
+									? Promise.resolve()
+									: Promise.reject(new Error("비밀번호가 일치하지 않습니다.")),
 						},
 					]}
 				>
@@ -136,11 +133,11 @@ const RegisterPage = () => {
 						value={confirmPassword}
 						onChange={(e) => setConfirmPassword(e.target.value)}
 						type="password"
-						placeholder="Confirm Password"
+						placeholder="비밀번호 확인"
 					/>
 				</Form.Item>
 				<br />
-				<SButton htmlType="submit">Register</SButton>
+				<SButton htmlType="submit">회원가입</SButton>
 			</SForm>
 		</Container>
 	)

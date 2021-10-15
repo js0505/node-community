@@ -21,10 +21,16 @@ const QuillEditor = ({ value, onChange }) => {
 					header: { "content-type": "multipart/form-data" },
 					withCredentials: true,
 				}
+
+				let uploadAPI = ""
+				if (process.env.NODE_ENV === "production") {
+					uploadAPI = "/api/upload/"
+				} else {
+					uploadAPI = "http://localhost:5000/api/upload/"
+				}
 				await axios
-					.post("http://localhost:5000/api/upload", formData, config)
+					.post(uploadAPI, formData, config)
 					.then((res) => {
-						console.log(res.data)
 						const quill = quillRef.current.getEditor()
 						const range = quill.getSelection()?.index
 						//getSelection()은 현재 선택된 범위를 리턴한다. 에디터가 포커싱되지 않았다면 null을 반환한다.
