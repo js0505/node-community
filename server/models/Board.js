@@ -35,6 +35,7 @@ const boardSchema = mongoose.Schema(
 			type: String,
 		},
 		isFixed: {
+			// 고정글 여부
 			type: Boolean,
 			default: false,
 		},

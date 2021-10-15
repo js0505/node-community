@@ -28,6 +28,7 @@ const upload = multer({ storage: storage }).single("image")
 
 const uploadImage = (req, res) => {
 	upload(req, res, (err) => {
+		console.log(req)
 		if (err) return res.json({ success: false, err: "this" })
 		return res.json({
 			success: true,
