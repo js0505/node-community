@@ -23,6 +23,8 @@ services:
       - ./server:/app
     environment:
       MONGO_URI: $MONGO_URI
+      AWS_ACCESS_KEY: $AWS_ACCESS_KEY
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     mem_limit: 1g
 # version: "3"
 # services:
