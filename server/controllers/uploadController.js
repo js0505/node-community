@@ -5,7 +5,7 @@ const AWS = require("aws-sdk")
 const config = require("../config/key")
 
 const s3 = new AWS.S3({
-	accessKeyId: config.AWS_SECRET_ACCESS_KEY,
+	accessKeyId: config.AWS_ACCESS_KEY,
 	secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
 	region: "us-east-2",
 })
