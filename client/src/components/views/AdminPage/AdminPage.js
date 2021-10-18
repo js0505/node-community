@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import Loader from "../../modules/Loader"
 import { useDispatch } from "react-redux"
-import { Table, Button, Popconfirm, message, PageHeader } from "antd"
+import { Table, Button, Popconfirm, message, PageHeader, Row, Col } from "antd"
 import {
 	admissionUser,
 	refuseUser,
@@ -51,38 +51,40 @@ const AdminPage = () => {
 		return <Loader />
 	}
 	return (
-		<>
-			<SPageHeader title={"회원가입 승인 대기 리스트"} />
-			<Table dataSource={users}>
-				<Column title="이름" key="name" dataIndex="name" align="center" />
-				<Column title="이메일" key="email" dataIndex="email" align="center" />
-				<Column
-					title="가입 여부"
-					key="action"
-					align="center"
-					render={(text, user) => (
-						<>
-							<SButton>
-								<Popconfirm
-									title="가입을 승인 하시겠습니까?"
-									onConfirm={() => onAdmissionHandler(user._id)}
-								>
-									승인
-								</Popconfirm>
-							</SButton>
-							<Button>
-								<Popconfirm
-									title="가입을 거절 하시겠습니까?"
-									onConfirm={() => onRefuseHandler(user._id)}
-								>
-									거절
-								</Popconfirm>
-							</Button>
-						</>
-					)}
-				/>
-			</Table>
-		</>
+		<Row justify="center">
+			<Col xs={20} md={20} lg={15} xl={15}>
+				<SPageHeader title={"회원가입 승인 대기 리스트"} />
+				<Table dataSource={users}>
+					<Column title="이름" key="name" dataIndex="name" align="center" />
+					<Column title="이메일" key="email" dataIndex="email" align="center" />
+					<Column
+						title="가입 여부"
+						key="action"
+						align="center"
+						render={(text, user) => (
+							<>
+								<SButton>
+									<Popconfirm
+										title="가입을 승인 하시겠습니까?"
+										onConfirm={() => onAdmissionHandler(user._id)}
+									>
+										승인
+									</Popconfirm>
+								</SButton>
+								<Button>
+									<Popconfirm
+										title="가입을 거절 하시겠습니까?"
+										onConfirm={() => onRefuseHandler(user._id)}
+									>
+										거절
+									</Popconfirm>
+								</Button>
+							</>
+						)}
+					/>
+				</Table>
+			</Col>
+		</Row>
 	)
 }
 

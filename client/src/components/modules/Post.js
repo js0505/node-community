@@ -8,7 +8,7 @@ import { deleteScrap } from "../../_actions/scrap_action"
 import Loader from "./Loader"
 
 const Container = styled.div`
-	width: 50%;
+	width: 100%;
 	display: flex;
 `
 

@@ -43,10 +43,9 @@ const QuillEditor = ({ value, onChange }) => {
 						quill.setSelection(range, 1)
 						/* 사용자 선택을 지정된 범위로 설정하여 에디터에 포커싱할 수 있다. 
                         위치 인덱스와 길이를 넣어주면 된다.*/
-						quill.clipboard.dangerouslyPasteHTML(
-							range,
-							`<img src='${res.data.url}' alt="image" />`
-						)
+						let render = `<img src='${res.data.url}' style='max-width:100%; height:auto;' alt="image"/>`
+
+						quill.clipboard.dangerouslyPasteHTML(range, render)
 					})
 					.catch((e) => console.log(e))
 				return

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, Form, Input, PageHeader, message } from "antd"
+import { Button, Form, Input, PageHeader, message, Row, Col } from "antd"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux"
@@ -8,7 +8,6 @@ import { registerUser } from "../../../_actions/user_action"
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 	width: 100%;
 `
@@ -16,7 +15,7 @@ const Container = styled.div`
 const SForm = styled(Form)`
 	display: flex;
 	flex-direction: column;
-	width: 20%;
+	width: 100%;
 `
 
 const SInput = styled(Input)`
@@ -62,84 +61,90 @@ const RegisterPage = () => {
 	}
 
 	return (
-		<Container>
-			<PageHeader title={"회원가입"} />
-			<SForm layout="vertical" onFinish={onSubmitHandler}>
-				<Form.Item
-					name="username"
-					rules={[
-						{
-							required: true,
-							max: 10,
-							message: "이름은 10글자 이하로 입력 해주세요.",
-						},
-					]}
-				>
-					<SInput
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						type="text"
-						placeholder="이름"
-					/>
-				</Form.Item>
-				<Form.Item
-					name="email"
-					rules={[
-						{
-							required: true,
-							message: "이메일을 입력 해주세요.",
-						},
-					]}
-				>
-					<SInput
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						type="email"
-						placeholder="이메일"
-					/>
-				</Form.Item>
+		<Row justify="center">
+			<Col xs={20} md={8} lg={5} xl={5}>
+				<Container>
+					<PageHeader title={"회원가입"} />
+					<SForm layout="vertical" onFinish={onSubmitHandler}>
+						<Form.Item
+							name="username"
+							rules={[
+								{
+									required: true,
+									max: 10,
+									message: "이름은 10글자 이하로 입력 해주세요.",
+								},
+							]}
+						>
+							<SInput
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								type="text"
+								placeholder="이름"
+							/>
+						</Form.Item>
+						<Form.Item
+							name="email"
+							rules={[
+								{
+									required: true,
+									message: "이메일을 입력 해주세요.",
+								},
+							]}
+						>
+							<SInput
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								type="email"
+								placeholder="이메일"
+							/>
+						</Form.Item>
 
-				<Form.Item
-					name="password"
-					rules={[
-						{
-							required: true,
-							min: 5,
-							message: "비밀번호는 5글자 이상 입력 해주세요.",
-						},
-					]}
-				>
-					<SInput
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						type="password"
-						placeholder="비밀번호"
-					/>
-				</Form.Item>
+						<Form.Item
+							name="password"
+							rules={[
+								{
+									required: true,
+									min: 5,
+									message: "비밀번호는 5글자 이상 입력 해주세요.",
+								},
+							]}
+						>
+							<SInput
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								type="password"
+								placeholder="비밀번호"
+							/>
+						</Form.Item>
 
-				<Form.Item
-					name="confirmPassword"
-					rules={[
-						{
-							required: true,
-							validator: (_, err) =>
-								password === confirmPassword
-									? Promise.resolve()
-									: Promise.reject(new Error("비밀번호가 일치하지 않습니다.")),
-						},
-					]}
-				>
-					<SInput
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-						type="password"
-						placeholder="비밀번호 확인"
-					/>
-				</Form.Item>
-				<br />
-				<SButton htmlType="submit">회원가입</SButton>
-			</SForm>
-		</Container>
+						<Form.Item
+							name="confirmPassword"
+							rules={[
+								{
+									required: true,
+									validator: (_, err) =>
+										password === confirmPassword
+											? Promise.resolve()
+											: Promise.reject(
+													new Error("비밀번호가 일치하지 않습니다.")
+											  ),
+								},
+							]}
+						>
+							<SInput
+								value={confirmPassword}
+								onChange={(e) => setConfirmPassword(e.target.value)}
+								type="password"
+								placeholder="비밀번호 확인"
+							/>
+						</Form.Item>
+						<br />
+						<SButton htmlType="submit">회원가입</SButton>
+					</SForm>
+				</Container>
+			</Col>
+		</Row>
 	)
 }
 

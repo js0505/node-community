@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
-import { message, Form, Button, Input, PageHeader } from "antd"
+import { message, Form, Button, Input, PageHeader, Row, Col } from "antd"
 import { useDispatch } from "react-redux"
 import { loginUser } from "../../../_actions/user_action"
 import styled from "styled-components"
@@ -8,7 +8,6 @@ import styled from "styled-components"
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 	width: 100%;
 `
@@ -16,7 +15,7 @@ const Container = styled.div`
 const SForm = styled(Form)`
 	display: flex;
 	flex-direction: column;
-	width: 20%;
+	width: 100%;
 `
 
 const SInput = styled(Input)`
@@ -51,51 +50,55 @@ const LoginPage = () => {
 		})
 	}
 	return (
-		<Container>
-			<PageHeader title={"로그인"} />
-			<SForm layout="vertical" onFinish={onSubmitHandler}>
-				<Form.Item
-					name="email"
-					rules={[
-						{
-							required: true,
-							message: "이메일을 입력 해주세요.",
-						},
-					]}
-				>
-					<SInput
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						type="email"
-						placeholder="이메일"
-					/>
-				</Form.Item>
+		<Row justify="center">
+			<Col xs={20} md={20} lg={5} xl={5}>
+				<Container>
+					<PageHeader title={"로그인"} />
+					<SForm layout="vertical" onFinish={onSubmitHandler}>
+						<Form.Item
+							name="email"
+							rules={[
+								{
+									required: true,
+									message: "이메일을 입력 해주세요.",
+								},
+							]}
+						>
+							<SInput
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								type="email"
+								placeholder="이메일"
+							/>
+						</Form.Item>
 
-				<Form.Item
-					name="password"
-					rules={[
-						{
-							required: true,
-							message: "비밀번호를 입력 해주세요.",
-						},
-					]}
-				>
-					<SInput
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						type="password"
-						placeholder="비밀번호"
-					/>
-				</Form.Item>
+						<Form.Item
+							name="password"
+							rules={[
+								{
+									required: true,
+									message: "비밀번호를 입력 해주세요.",
+								},
+							]}
+						>
+							<SInput
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								type="password"
+								placeholder="비밀번호"
+							/>
+						</Form.Item>
 
-				<br />
-				<SButton htmlType="submit">로그인</SButton>
-				<br />
-				<p>
-					아직 회원이 아니신가요? <a href="/register">회원가입</a>
-				</p>
-			</SForm>
-		</Container>
+						<br />
+						<SButton htmlType="submit">로그인</SButton>
+						<br />
+						<p>
+							아직 회원이 아니신가요? <a href="/register">회원가입</a>
+						</p>
+					</SForm>
+				</Container>
+			</Col>
+		</Row>
 	)
 }
 

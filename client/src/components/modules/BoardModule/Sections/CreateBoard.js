@@ -1,4 +1,4 @@
-import { Button, Input, Popconfirm, message } from "antd"
+import { Button, Input, Popconfirm, message, Row, Col } from "antd"
 import React, { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useLocation } from "react-router"
@@ -65,35 +65,39 @@ const CreateBoard = () => {
 		dispatch(createBoard(variables))
 			.then((res) => {
 				message.success("작성 되었습니다.")
-				history.push(`/board/${res.payload.result._id}`)
+				history.push(`/board/${res.payload.result._id}?bindex=${query.bindex}`)
 			})
 			.catch((e) => console.log(e))
 	}
-	console.log(description)
+
 	return (
-		<Container>
-			<Form onSubmit={onSubmitHandler}>
-				<SInput
-					type="text"
-					value={title}
-					placeholder={"제목을 입력하세요"}
-					onChange={(e) => setTitle(e.target.value)}
-				/>
-				<QuillEditor value={description} onChange={setDescription} />
-				<br />
-				<ButtonContainer>
-					<SButton type="submit">
-						<Popconfirm
-							title={"작성 하시겠습니까?"}
-							onConfirm={onSubmitHandler}
-						>
-							작성
-						</Popconfirm>
-					</SButton>
-					<Button onClick={() => history.goBack()}>취소</Button>
-				</ButtonContainer>
-			</Form>
-		</Container>
+		<Row justify="center">
+			<Col xs={24} md={22} lg={20} xl={20}>
+				<Container>
+					<Form onSubmit={onSubmitHandler}>
+						<SInput
+							type="text"
+							value={title}
+							placeholder={"제목을 입력하세요"}
+							onChange={(e) => setTitle(e.target.value)}
+						/>
+						<QuillEditor value={description} onChange={setDescription} />
+						<br />
+						<ButtonContainer>
+							<SButton type="submit">
+								<Popconfirm
+									title={"작성 하시겠습니까?"}
+									onConfirm={onSubmitHandler}
+								>
+									작성
+								</Popconfirm>
+							</SButton>
+							<Button onClick={() => history.goBack()}>취소</Button>
+						</ButtonContainer>
+					</Form>
+				</Container>
+			</Col>
+		</Row>
 	)
 }
 

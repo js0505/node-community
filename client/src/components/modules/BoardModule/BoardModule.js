@@ -3,7 +3,16 @@ import QueryString from "qs"
 import styled from "styled-components"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router"
-import { Pagination, Button, Form, Input, Select, PageHeader } from "antd"
+import {
+	Pagination,
+	Button,
+	Form,
+	Input,
+	Select,
+	PageHeader,
+	Row,
+	Col,
+} from "antd"
 import Post from "../Post"
 import Loader from "../Loader"
 import { getBoardByBIndex } from "../../../_actions/board_action"
@@ -14,7 +23,6 @@ const Container = styled.div`
 	justify-content: center;
 	flex-direction: column;
 	width: 100%;
-	margin: 0 auto;
 `
 
 const SearchAndButton = styled.div`
@@ -64,57 +72,60 @@ const BoardModule = () => {
 	const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost)
 	const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
-	const pageHeaderTitle = () => {
-		if (query.bindex === "1") {
-			return "운영자 글쓰기 게시판"
-		} else {
-			return "자유 게시판"
-		}
-	}
-
 	if (loading) {
 		return <Loader />
 	}
 	return (
-		<>
-			<Container>
-				<PageHeader title={pageHeaderTitle()} />
-				<Post posts={currentPosts} loading={loading} bindex={query.bindex} />
-				<SearchAndButton>
-					<Form style={{ display: "flex" }}>
-						<SFormItem>
-							<Select defaultValue="title" onChange={(e) => setCategory(e)}>
-								<Option value="title">제목</Option>
-								<Option value="description">내용</Option>
-								<Option value="name">작성자</Option>
-							</Select>
-						</SFormItem>
-						<SFormItem>
-							<Input
-								value={keyword}
-								onChange={(e) => setKeyword(e.target.value)}
-							/>
-						</SFormItem>
-						<SFormItem>
-							<Button>
-								<a href={`/search?category=${category}&keyword=${keyword}`}>
-									Search
-								</a>
-							</Button>
-						</SFormItem>
-					</Form>
-					<Button disabled={query.bindex === "1" && user?.isAdmin !== true}>
-						<a href={`/board/create?bindex=${query.bindex}`}>글쓰기</a>
-					</Button>
-				</SearchAndButton>
-				<SPagenation
-					defaultCurrent={1}
-					total={posts.length}
-					defaultPageSize={postsPerPage}
-					onChange={paginate}
-				/>
-			</Container>
-		</>
+		<Row justify="center">
+			<Col xs={20} md={20} lg={15} xl={15}>
+				<Container>
+					<PageHeader
+						title={
+							{
+								1: "공지 사항",
+								2: "자유 게시판",
+								3: "정보 게시판",
+								4: "질문 게시판",
+							}[query.bindex]
+						}
+					/>
+					<Post posts={currentPosts} loading={loading} bindex={query.bindex} />
+					<SearchAndButton>
+						<Form style={{ display: "flex" }}>
+							<SFormItem>
+								<Select defaultValue="title" onChange={(e) => setCategory(e)}>
+									<Option value="title">제목</Option>
+									<Option value="description">내용</Option>
+									<Option value="name">작성자</Option>
+								</Select>
+							</SFormItem>
+							<SFormItem>
+								<Input
+									value={keyword}
+									onChange={(e) => setKeyword(e.target.value)}
+								/>
+							</SFormItem>
+							<SFormItem>
+								<Button>
+									<a href={`/search?category=${category}&keyword=${keyword}`}>
+										Search
+									</a>
+								</Button>
+							</SFormItem>
+						</Form>
+						<Button disabled={query.bindex === "1" && user?.isAdmin !== true}>
+							<a href={`/board/create?bindex=${query.bindex}`}>글쓰기</a>
+						</Button>
+					</SearchAndButton>
+					<SPagenation
+						defaultCurrent={1}
+						total={posts.length}
+						defaultPageSize={postsPerPage}
+						onChange={paginate}
+					/>
+				</Container>
+			</Col>
+		</Row>
 	)
 }
 

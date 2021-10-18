@@ -6,15 +6,14 @@ import ReactHtmlParser from "react-html-parser"
 import { useDispatch, useSelector } from "react-redux"
 import { deleteBoard, getDetail } from "../../../../_actions/board_action"
 import { addScrap } from "../../../../_actions/scrap_action"
-import { Button, message, Popconfirm } from "antd"
+import { Button, message, Popconfirm, Row, Col } from "antd"
 import Loader from "../../../modules/Loader"
 import Moment from "react-moment"
 import styled from "styled-components"
 import "react-quill/dist/quill.snow.css"
 
 const Container = styled.div`
-	width: 80%;
-	margin: 0 auto;
+	width: 100%;
 `
 
 const Header = styled.div`
@@ -39,7 +38,7 @@ const WriterSpan = styled.span`
 `
 
 const Description = styled.div`
-	margin-left: 10%;
+	width: 100%;
 `
 const SButton = styled(Button)`
 	margin-right: 10px;
@@ -97,48 +96,52 @@ const BoardDetail = () => {
 				<Loader />
 			) : (
 				detailItem.writer && (
-					<>
-						<Container>
-							<Header>
-								<Title>
-									<p>{detailItem.title}</p>
-								</Title>
-								<Writer>
-									<WriterSpan>작성자 : {detailItem.writer.name}</WriterSpan>
-									<WriterSpan>
-										작성일자 :{" "}
-										<Moment format={"YY-MM-DD"}>
-											{detailItem.writer.createdAt}
-										</Moment>
-									</WriterSpan>
-								</Writer>
-							</Header>
-							<hr style={{ opacity: "0.4" }} />
-							<br />
-							<ButtonContainer>
-								{detailItem.writer._id !== user?._id ? (
-									<>
-										<SButton onClick={onScrapHandler}>스크랩</SButton>
-									</>
-								) : (
-									<>
-										<SButton href={`/board/update/${id}`}>수정</SButton>
-										<SButton>
-											<Popconfirm
-												title={"삭제 하시겠습니까?"}
-												onConfirm={onDeleteBoardHandler}
-											>
-												삭제
-											</Popconfirm>
-										</SButton>
-									</>
-								)}
-							</ButtonContainer>
-							<Description className="ql-editor">
-								{ReactHtmlParser(detailItem.description)}
-							</Description>
-						</Container>
-					</>
+					<Row justify="center">
+						<Col xs={24} md={24} lg={20} xl={20}>
+							<Container>
+								<Header>
+									<Title>
+										<p>{detailItem.title}</p>
+									</Title>
+									<Writer>
+										<WriterSpan>작성자 : {detailItem.writer.name}</WriterSpan>
+										<WriterSpan>
+											작성일자 :{" "}
+											<Moment format={"YY-MM-DD"}>
+												{detailItem.writer.createdAt}
+											</Moment>
+										</WriterSpan>
+									</Writer>
+								</Header>
+								<hr style={{ opacity: "0.4" }} />
+								<br />
+								<ButtonContainer>
+									{detailItem.writer._id !== user?._id ? (
+										<>
+											<SButton onClick={onScrapHandler}>스크랩</SButton>
+										</>
+									) : (
+										<>
+											<SButton href={`/board/update/${id}`}>수정</SButton>
+											<SButton>
+												<Popconfirm
+													title={"삭제 하시겠습니까?"}
+													onConfirm={onDeleteBoardHandler}
+												>
+													삭제
+												</Popconfirm>
+											</SButton>
+										</>
+									)}
+								</ButtonContainer>
+								<div className="ql-snow">
+									<Description className="ql-editor">
+										{ReactHtmlParser(detailItem.description)}
+									</Description>
+								</div>
+							</Container>
+						</Col>
+					</Row>
 				)
 			)}
 		</>

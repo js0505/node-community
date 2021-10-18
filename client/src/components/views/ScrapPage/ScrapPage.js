@@ -1,4 +1,4 @@
-import { PageHeader, Pagination } from "antd"
+import { PageHeader, Pagination, Row, Col } from "antd"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useParams } from "react-router"
@@ -57,30 +57,32 @@ const ScrapPage = () => {
 		return <Loader />
 	}
 	return (
-		<>
-			{posts.length !== 0 ? (
+		<Row justify="center">
+			<Col xs={20} md={20} lg={15} xl={15}>
 				<Container>
-					<PageHeader title={"스크랩 리스트"} />
-					<Post
-						posts={currentPosts}
-						isScrap={true}
-						refreshScrapFunction={refreshScrapFunction}
-						loading={loading}
-					/>
+					{posts.length !== 0 ? (
+						<>
+							<PageHeader title={"스크랩 리스트"} />
+							<Post
+								posts={currentPosts}
+								isScrap={true}
+								refreshScrapFunction={refreshScrapFunction}
+								loading={loading}
+							/>
 
-					<SPagenation
-						defaultCurrent={1}
-						total={posts.length}
-						defaultPageSize={postsPerPage}
-						onChange={paginate}
-					/>
+							<SPagenation
+								defaultCurrent={1}
+								total={posts.length}
+								defaultPageSize={postsPerPage}
+								onChange={paginate}
+							/>
+						</>
+					) : (
+						<PageHeader title={`데이터가 없습니다.`} />
+					)}
 				</Container>
-			) : (
-				<Container>
-					<PageHeader title={`데이터가 없습니다.`} />
-				</Container>
-			)}
-		</>
+			</Col>
+		</Row>
 	)
 }
 

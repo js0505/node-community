@@ -1,33 +1,40 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import { Menu } from "antd"
+import { Layout, Menu } from "antd"
 import { UserOutlined } from "@ant-design/icons"
 import { useDispatch, useSelector } from "react-redux"
 import { logoutUser } from "../../../_actions/user_action"
 import styled from "styled-components"
 const { SubMenu } = Menu
-
+const { Header } = Layout
 const SMenu = styled(Menu)`
-	height: 80px;
-	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	box-shadow: 0px 5px 5px -1px rgba(0, 0, 0, 0.2);
-	margin-bottom: 30px;
 `
 
-const LeftMenu = styled.div`
-	width: 100%;
-	display: flex;
-	font-size: 16px;
-	margin-left: 20px;
+const SHeader = styled(Header)`
+	margin-top: 15px;
+	margin-bottom: 15px;
+	background-color: #f0f2f5;
 `
 
-const RightMenu = styled.div`
-	font-size: 16px;
-	margin-right: 20px;
+const SLayout = styled(Layout)`
+	margin-bottom: 20px;
 `
+
+// const LeftMenu = styled.div`
+// 	width: 100%;
+// 	display: flex;
+// 	font-size: 16px;
+// 	margin-left: 20px;
+// `
+
+// const RightMenu = styled.div`
+// 	font-size: 16px;
+// 	margin-right: 20px;
+// `
 
 const NavBar = () => {
 	const history = useHistory()
@@ -45,49 +52,55 @@ const NavBar = () => {
 	}
 
 	return (
-		<SMenu>
-			<LeftMenu>
-				<Menu.Item key="home">
-					<a href="/">홈</a>
-				</Menu.Item>
-				<Menu.Item key="board1">
-					<a href="/board?bindex=1">1번게시판</a>
-				</Menu.Item>
-				<Menu.Item key="board2">
-					<a href="/board?bindex=2">2번게시판</a>
-				</Menu.Item>
-			</LeftMenu>
+		<SLayout>
+			<SHeader>
+				<SMenu mode="horizontal">
+					<Menu.Item key="home">
+						<a href="/">Roast Diagnosis</a>
+					</Menu.Item>
+					<Menu.Item key="board1">
+						<a href="/board?bindex=1">공지</a>
+					</Menu.Item>
+					<Menu.Item key="board2">
+						<a href="/board?bindex=2">자유</a>
+					</Menu.Item>
+					<Menu.Item key="board3">
+						<a href="/board?bindex=3">정보</a>
+					</Menu.Item>
+					<Menu.Item key="board4">
+						<a href="/board?bindex=4">질문</a>
+					</Menu.Item>
 
-			<RightMenu>
-				{user.userData && !user.userData.isAuth ? (
-					<div style={{ display: "flex" }}>
-						<Menu.Item>
-							<a href="/login">Login</a>
-						</Menu.Item>
-					</div>
-				) : (
-					<>
-						<SubMenu
-							key="SubMenu"
-							title={user.userData && user.userData.name}
-							icon={<UserOutlined />}
-						>
-							{user.userData && user.userData.isAdmin && (
-								<Menu.Item>
-									<a href="/admin">관리자 페이지</a>
-								</Menu.Item>
-							)}
+					{user.userData && !user.userData.isAuth ? (
+						<div style={{ display: "flex" }}>
 							<Menu.Item>
-								<a href={user.userData && `/scrap/${user.userData._id}`}>
-									스크랩
-								</a>
+								<a href="/login">Login</a>
 							</Menu.Item>
-							<Menu.Item onClick={onLogoutHandler}>로그아웃</Menu.Item>
-						</SubMenu>
-					</>
-				)}
-			</RightMenu>
-		</SMenu>
+						</div>
+					) : (
+						<>
+							<SubMenu
+								key="SubMenu"
+								title={user.userData && user.userData.name}
+								icon={<UserOutlined />}
+							>
+								{user.userData && user.userData.isAdmin && (
+									<Menu.Item>
+										<a href="/admin">관리자 페이지</a>
+									</Menu.Item>
+								)}
+								<Menu.Item>
+									<a href={user.userData && `/scrap/${user.userData._id}`}>
+										스크랩
+									</a>
+								</Menu.Item>
+								<Menu.Item onClick={onLogoutHandler}>로그아웃</Menu.Item>
+							</SubMenu>
+						</>
+					)}
+				</SMenu>
+			</SHeader>
+		</SLayout>
 	)
 }
 
