@@ -51,6 +51,7 @@ const updateBoardById = (req, res) => {
 	Board.findByIdAndUpdate(req.params.id, {
 		title: req.body.title,
 		description: req.body.description,
+		s3Key: req.body.s3Key,
 	}).exec((err, result) => {
 		if (err) return res.status(400).json({ success: false, err })
 		return res.status(200).json({ success: true, result })
@@ -88,6 +89,18 @@ const getBoardByBIndex = (req, res) => {
 			return res.status(200).json({ success: true, result })
 		})
 }
+
+// 모든 s3key 값을 찾고, s3 버켓 내부의 리스트를 다 불러와서
+// 값에 존재하지 않는 버켓 내부의 키들을 배열에 묶어서 한번에 삭제 해버리면 임시파일 제거가 가능하지 않을까.
+// const getBoardByBIndex = (req, res) => {
+// 	Board.find({ bindex: req.query.bindex })
+// 		.sort({ isFixed: -1, createdAt: -1 })
+// 		.populate("writer")
+// 		.exec((err, result) => {
+// 			if (err) return res.status(400).json({ success: false, err })
+// 			return res.status(200).json({ success: true, result })
+// 		})
+// }
 
 module.exports = {
 	getBoardByBIndex,
