@@ -70,7 +70,7 @@ const BoardDetail = () => {
 
 	const onDeleteBoardHandler = async () => {
 		await dispatch(deleteBoard(id))
-			.then(() => {
+			.then((res) => {
 				message.success("삭제 되었습니다.")
 				history.push(`/board?bindex=${query.bindex}`)
 			})

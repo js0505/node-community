@@ -42,6 +42,7 @@ const SButton = styled(Button)`
 const CreateBoard = () => {
 	const [title, setTitle] = useState("")
 	const [description, setDescription] = useState("")
+	const [s3Key, setS3Key] = useState([])
 	const user = useSelector((state) => state.user)
 	const history = useHistory()
 	const dispatch = useDispatch()
@@ -59,6 +60,7 @@ const CreateBoard = () => {
 			writer: user.userData._id,
 			title,
 			description,
+			s3Key,
 			bindex: query.bindex,
 		}
 
@@ -68,6 +70,10 @@ const CreateBoard = () => {
 				history.push(`/board/${res.payload.result._id}?bindex=${query.bindex}`)
 			})
 			.catch((e) => console.log(e))
+	}
+
+	const getS3Key = (value) => {
+		setS3Key((s3Key) => [...s3Key, value])
 	}
 
 	return (
@@ -81,7 +87,11 @@ const CreateBoard = () => {
 							placeholder={"제목을 입력하세요"}
 							onChange={(e) => setTitle(e.target.value)}
 						/>
-						<QuillEditor value={description} onChange={setDescription} />
+						<QuillEditor
+							value={description}
+							onChange={setDescription}
+							s3Key={getS3Key}
+						/>
 						<br />
 						<ButtonContainer>
 							<SButton type="submit">

@@ -72,11 +72,9 @@ const NavBar = () => {
 					</Menu.Item>
 
 					{user.userData && !user.userData.isAuth ? (
-						<div style={{ display: "flex" }}>
-							<Menu.Item>
-								<a href="/login">Login</a>
-							</Menu.Item>
-						</div>
+						<Menu.Item>
+							<a href="/login">Login</a>
+						</Menu.Item>
 					) : (
 						<>
 							<SubMenu

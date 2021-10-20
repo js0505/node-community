@@ -1,8 +1,9 @@
+import { message } from "antd"
 import axios from "axios"
 import React, { useMemo, useRef } from "react"
 import ReactQuill from "react-quill"
 
-const QuillEditor = ({ value, onChange }) => {
+const QuillEditor = ({ value, onChange, s3Key }) => {
 	const quillRef = useRef()
 	const imageHandler = () => {
 		// 파일을 업로드 하기 위한 input 태그 생성
@@ -31,7 +32,11 @@ const QuillEditor = ({ value, onChange }) => {
 				await axios
 					.post(uploadAPI, formData, config)
 					.then((res) => {
-						console.log(res.data)
+						if (res.data.err && res.data.err.code === "LIMIT_FILE_SIZE") {
+							message.error("이미지의 사이즈는 1MB 미만으로 업로드 가능합니다.")
+							return
+						}
+						s3Key(res.data.file.Key)
 						const quill = quillRef.current.getEditor()
 						const range = quill.getSelection()?.index
 						//getSelection()은 현재 선택된 범위를 리턴한다. 에디터가 포커싱되지 않았다면 null을 반환한다.
@@ -43,7 +48,7 @@ const QuillEditor = ({ value, onChange }) => {
 						quill.setSelection(range, 1)
 						/* 사용자 선택을 지정된 범위로 설정하여 에디터에 포커싱할 수 있다. 
                         위치 인덱스와 길이를 넣어주면 된다.*/
-						let render = `<img src='${res.data.url}' style='max-width:100%; height:auto;' alt="image"/>`
+						let render = `<img src='${res.data.url}' alt="image"/>`
 
 						quill.clipboard.dangerouslyPasteHTML(range, render)
 					})
