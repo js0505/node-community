@@ -71,8 +71,7 @@ const CreateBoard = () => {
 			})
 			.catch((e) => console.log(e))
 	}
-
-	const getS3Key = (value) => {
+	const getS3KeyFunction = (value) => {
 		setS3Key((s3Key) => [...s3Key, value])
 	}
 
@@ -90,7 +89,7 @@ const CreateBoard = () => {
 						<QuillEditor
 							value={description}
 							onChange={setDescription}
-							s3Key={getS3Key}
+							getS3KeyFunction={getS3KeyFunction}
 						/>
 						<br />
 						<ButtonContainer>

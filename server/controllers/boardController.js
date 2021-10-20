@@ -1,4 +1,12 @@
 const { Board } = require("../models/Board")
+const AWS = require("aws-sdk")
+const config = require("../config/key")
+
+const s3 = new AWS.S3({
+	accessKeyId: config.AWS_ACCESS_KEY,
+	secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
+	region: config.AWS_S3_REGION,
+})
 
 const createBoard = (req, res) => {
 	const board = new Board(req.body)
@@ -50,9 +58,24 @@ const updateBoardById = (req, res) => {
 }
 
 const deleteBoardById = (req, res) => {
-	Board.findByIdAndDelete(req.params.id).exec((err, result) => {
-		if (err) return res.status(400).json({ success: false, err })
-		return res.status(200).json({ success: true, result })
+	Board.findById(req.params.id).exec((err, result) => {
+		if (result.s3Key.length !== 0) {
+			let params = {
+				Bucket: config.AWS_S3_BUCKET,
+				Delete: { Objects: [] },
+			}
+			result.s3Key.forEach((key) => {
+				params.Delete.Objects.push({ Key: key })
+			})
+			s3.deleteObjects(params, (err, data) => {
+				if (err) return res.status(400).json({ success: false, err })
+			})
+		}
+
+		Board.findByIdAndDelete(req.params.id).exec((err, result) => {
+			if (err) return res.status(400).json({ success: false, err })
+			return res.status(200).json({ success: true, result })
+		})
 	})
 }
 

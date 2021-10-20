@@ -39,6 +39,9 @@ const boardSchema = mongoose.Schema(
 			type: Boolean,
 			default: false,
 		},
+		s3Key: {
+			type: Array,
+		},
 	},
 	{ timestamps: true }
 )

@@ -7,5 +7,4 @@ const router = express.Router()
 // api/upload/
 /////////////////////////////
 router.route("/").post(auth, uploadImage)
-
 module.exports = router

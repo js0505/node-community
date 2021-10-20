@@ -37,6 +37,7 @@ const ButtonContainer = styled.div`
 const UpdateBoard = () => {
 	const [title, setTitle] = useState("")
 	const [description, setDescription] = useState("")
+	const [s3Key, setS3Key] = useState([])
 	const user = useSelector((state) => state.user)
 	const history = useHistory()
 	const { id } = useParams()
@@ -47,6 +48,7 @@ const UpdateBoard = () => {
 			.then((res) => {
 				setTitle(res.payload.result.title)
 				setDescription(res.payload.result.description)
+				setS3Key(res.payload.result.s3Key)
 			})
 			.catch((e) => console.log(e))
 	}, [dispatch, history, id])
@@ -62,12 +64,16 @@ const UpdateBoard = () => {
 			writer: user.userData._id,
 			title,
 			description,
+			s3Key,
 		}
 
 		dispatch(updateBoard(id, variables)).then(() => {
 			message.success("작성 완료")
 			history.push(`/board/${id}`)
 		})
+	}
+	const getS3KeyFunction = (value) => {
+		setS3Key((s3Key) => [...s3Key, value])
 	}
 
 	return (
@@ -79,7 +85,11 @@ const UpdateBoard = () => {
 					placeholder={"제목을 입력하세요"}
 					onChange={(e) => setTitle(e.target.value)}
 				/>
-				<QuillEditor value={description} onChange={setDescription} />
+				<QuillEditor
+					value={description}
+					onChange={setDescription}
+					getS3KeyFunction={getS3KeyFunction}
+				/>
 				<br />
 				<ButtonContainer>
 					<Button type="submit">
