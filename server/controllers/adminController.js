@@ -13,7 +13,7 @@ const getWaitingRegisterUser = (req, res) => {
 	})
 }
 
-const updateRollUser = (req, res) => {
+const admissionUser = (req, res) => {
 	User.findByIdAndUpdate(req.body.id, {
 		role: 0,
 	}).exec((err, result) => {
@@ -29,8 +29,26 @@ const refuseUser = (req, res) => {
 	})
 }
 
+const getAllUserInfo = (req, res) => {
+	User.find({}, (err, result) => {
+		if (err) return res.status(400).json({ success: false, err })
+		return res.status(200).json({ success: true, result })
+	})
+}
+
+const changeUserRole = (req, res) => {
+	User.findByIdAndUpdate(req.body.id, {
+		role: req.body.role,
+	}).exec((err, result) => {
+		if (err) return res.status(400).json({ success: false, err })
+		return res.status(200).json({ success: true, result })
+	})
+}
+
 module.exports = {
 	getWaitingRegisterUser,
-	updateRollUser,
+	admissionUser,
 	refuseUser,
+	getAllUserInfo,
+	changeUserRole,
 }

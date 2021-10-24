@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux"
 import { searchBoard } from "../../../_actions/board_action"
 import Post from "../../modules/Post"
 import styled from "styled-components"
-import { Pagination, PageHeader } from "antd"
+import { Pagination, PageHeader, Row, Col } from "antd"
 import Loader from "../../modules/Loader"
 
 const Container = styled.div`
@@ -51,25 +51,27 @@ const SearchPage = () => {
 		return <Loader />
 	}
 	return (
-		<>
-			{posts.length !== 0 ? (
-				<Container>
-					<PageHeader title={`'${query.keyword}' 검색 결과`} />
-					<Post posts={currentPosts} loading={loading} />
+		<Row justify="center">
+			<Col xs={20} md={20} lg={15} xl={15}>
+				{posts.length !== 0 ? (
+					<Container>
+						<PageHeader title={`'${query.keyword}' 검색 결과`} />
+						<Post posts={currentPosts} loading={loading} />
 
-					<SPagenation
-						defaultCurrent={1}
-						total={posts.length}
-						defaultPageSize={postsPerPage}
-						onChange={paginate}
-					/>
-				</Container>
-			) : (
-				<Container>
-					<PageHeader title={`검색 결과가 없습니다.`} />
-				</Container>
-			)}
-		</>
+						<SPagenation
+							defaultCurrent={1}
+							total={posts.length}
+							defaultPageSize={postsPerPage}
+							onChange={paginate}
+						/>
+					</Container>
+				) : (
+					<Container>
+						<PageHeader title={`검색 결과가 없습니다.`} />
+					</Container>
+				)}
+			</Col>
+		</Row>
 	)
 }
 

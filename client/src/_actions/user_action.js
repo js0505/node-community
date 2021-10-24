@@ -1,5 +1,11 @@
 import axios from "axios"
-import { LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER } from "./types"
+import {
+	LOGIN_USER,
+	REGISTER_USER,
+	AUTH_USER,
+	LOGOUT_USER,
+	UPDATE_USER_INFO,
+} from "./types"
 
 let userAPI = ""
 if (process.env.NODE_ENV === "production") {
@@ -34,6 +40,18 @@ export function registerUser(body) {
 	const request = axios.post(`${userAPI}`, body).then((res) => res.data)
 	return {
 		type: REGISTER_USER,
+		payload: request,
+	}
+}
+
+export function updateUser(body) {
+	const request = axios
+		.put(`${userAPI}`, body, {
+			withCredentials: true,
+		})
+		.then((res) => res.data)
+	return {
+		type: UPDATE_USER_INFO,
 		payload: request,
 	}
 }

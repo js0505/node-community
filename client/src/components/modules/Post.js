@@ -55,7 +55,10 @@ const Post = ({ posts, isScrap, refreshScrapFunction, loading, bindex }) => {
 									</MetaTitle>
 								}
 								description={
-									<p>{post.writer ? post.writer.name : "탈퇴한 회원"}</p>
+									<p>
+										{post.writer ? post.writer.name : "탈퇴한 회원"} (
+										{post.writer.company})
+									</p>
 								}
 							/>
 						) : (

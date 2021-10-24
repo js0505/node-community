@@ -4,8 +4,10 @@ const { auth, admin } = require("../middleware/auth")
 
 const {
 	getWaitingRegisterUser,
-	updateRollUser,
+	admissionUser,
 	refuseUser,
+	getAllUserInfo,
+	changeUserRole,
 } = require("../controllers/adminController")
 
 /////////////////////////////
@@ -14,7 +16,11 @@ const {
 router
 	.route("/admission")
 	.get(auth, admin, getWaitingRegisterUser)
-	.put(auth, admin, updateRollUser)
+	.put(auth, admin, admissionUser)
 	.delete(auth, admin, refuseUser)
 
+router
+	.route("/role")
+	.get(auth, admin, getAllUserInfo)
+	.put(auth, admin, changeUserRole)
 module.exports = router

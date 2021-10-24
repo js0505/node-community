@@ -1,4 +1,4 @@
-import { Button, Input, Popconfirm, message } from "antd"
+import { Button, Input, Popconfirm, message, Row, Col } from "antd"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
@@ -77,33 +77,37 @@ const UpdateBoard = () => {
 	}
 
 	return (
-		<Container>
-			<Form onSubmit={onSubmitHandler}>
-				<SInput
-					type="text"
-					value={title}
-					placeholder={"제목을 입력하세요"}
-					onChange={(e) => setTitle(e.target.value)}
-				/>
-				<QuillEditor
-					value={description}
-					onChange={setDescription}
-					getS3KeyFunction={getS3KeyFunction}
-				/>
-				<br />
-				<ButtonContainer>
-					<Button type="submit">
-						<Popconfirm
-							title={"작성 하시겠습니까?"}
-							onConfirm={onSubmitHandler}
-						>
-							작성
-						</Popconfirm>
-					</Button>
-					<Button onClick={() => history.goBack()}>취소</Button>
-				</ButtonContainer>
-			</Form>
-		</Container>
+		<Row justify="center">
+			<Col xs={24} md={22} lg={16} xl={16}>
+				<Container>
+					<Form onSubmit={onSubmitHandler}>
+						<SInput
+							type="text"
+							value={title}
+							placeholder={"제목을 입력하세요"}
+							onChange={(e) => setTitle(e.target.value)}
+						/>
+						<QuillEditor
+							value={description}
+							onChange={setDescription}
+							getS3KeyFunction={getS3KeyFunction}
+						/>
+						<br />
+						<ButtonContainer>
+							<Button type="submit">
+								<Popconfirm
+									title={"작성 하시겠습니까?"}
+									onConfirm={onSubmitHandler}
+								>
+									작성
+								</Popconfirm>
+							</Button>
+							<Button onClick={() => history.goBack()}>취소</Button>
+						</ButtonContainer>
+					</Form>
+				</Container>
+			</Col>
+		</Row>
 	)
 }
 

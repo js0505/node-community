@@ -12,6 +12,10 @@ import UpdateBoard from "./components/modules/BoardModule/Sections/UpdateBoard"
 import SearchPage from "./components/views/SearchPage/SearchPage"
 import ScrapPage from "./components/views/ScrapPage/ScrapPage"
 import AdminPage from "./components/views/AdminPage/AdminPage"
+import UserInfoPage from "./components/views/UserInfoPage/UserInfoPage"
+import UserUpdatePage from "./components/views/UserInfoPage/Sections/UserUpdatePage"
+import UserAdmissionEdit from "./components/views/AdminPage/Sections/UserAdmissionEdit"
+import UserRoleEdit from "./components/views/AdminPage/Sections/UserRoleEdit"
 
 const App = () => {
 	return (
@@ -20,8 +24,20 @@ const App = () => {
 			<Switch>
 				<Route exact path="/" component={Auth(LandingPage, null)} />
 				<Route exact path="/admin" component={Auth(AdminPage, true, true)} />
+				<Route
+					exact
+					path="/admin/admission"
+					component={Auth(UserAdmissionEdit, true, true)}
+				/>
+				<Route
+					exact
+					path="/admin/role"
+					component={Auth(UserRoleEdit, true, true)}
+				/>
 				<Route exact path="/login" component={Auth(LoginPage, false)} />
 				<Route exact path="/register" component={Auth(RegisterPage, false)} />
+				<Route exact path="/userinfo" component={Auth(UserInfoPage, true)} />
+				<Route exact path="/changeuserinfo" component={UserUpdatePage} />
 				<Route exact path="/search" component={Auth(SearchPage, null)} />
 				<Route exact path="/scrap/:id" component={Auth(ScrapPage, true)} />
 				<Route exact path="/board" component={Auth(BoardModule, null)} />

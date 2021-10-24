@@ -18,6 +18,7 @@ const Container = styled.div`
 
 const Header = styled.div`
 	display: flex;
+	flex-direction: row;
 	justify-content: space-between;
 `
 
@@ -27,14 +28,17 @@ const Title = styled.div`
 	margin-bottom: 10px;
 `
 const Writer = styled.div`
-	margin-right: 5%;
+	/* margin-right: 5%; */
+	width: 100%;
+	margin-left: 10%;
 	opacity: 0.5;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 `
 
 const WriterSpan = styled.span`
 	margin-bottom: 5px;
+	margin-right: 10px;
 `
 
 const Description = styled.div`
@@ -47,6 +51,7 @@ const SButton = styled(Button)`
 const ButtonContainer = styled.div`
 	display: flex;
 	justify-content: right;
+	margin-top: 10px;
 `
 const BoardDetail = () => {
 	const user = useSelector((state) => state.user.userData)
@@ -97,43 +102,54 @@ const BoardDetail = () => {
 			) : (
 				detailItem.writer && (
 					<Row justify="center">
-						<Col xs={24} md={24} lg={20} xl={20}>
+						<Col xs={22} md={22} lg={16} xl={16}>
 							<Container>
 								<Header>
-									<Title>
-										<p>{detailItem.title}</p>
-									</Title>
-									<Writer>
-										<WriterSpan>작성자 : {detailItem.writer.name}</WriterSpan>
-										<WriterSpan>
-											작성일자 :{" "}
-											<Moment format={"YY-MM-DD"}>
-												{detailItem.writer.createdAt}
-											</Moment>
-										</WriterSpan>
-									</Writer>
+									<div
+										style={{
+											display: "flex",
+											justifyContent: "space-between",
+											flexDirection: "column",
+										}}
+									>
+										<Title>
+											<p>{detailItem.title}</p>
+										</Title>
+										<Writer>
+											<WriterSpan>
+												{detailItem.writer.name} ({detailItem.writer.company}){" "}
+											</WriterSpan>
+											<WriterSpan>| </WriterSpan>
+											<WriterSpan>
+												<Moment format={"YY-MM-DD"}>
+													{detailItem.writer.createdAt}
+												</Moment>
+											</WriterSpan>
+										</Writer>
+									</div>
+									<ButtonContainer>
+										{detailItem.writer._id !== user?._id ? (
+											<>
+												<SButton onClick={onScrapHandler}>스크랩</SButton>
+											</>
+										) : (
+											<>
+												<SButton href={`/board/update/${id}`}>수정</SButton>
+												<SButton>
+													<Popconfirm
+														title={"삭제 하시겠습니까?"}
+														onConfirm={onDeleteBoardHandler}
+													>
+														삭제
+													</Popconfirm>
+												</SButton>
+											</>
+										)}
+									</ButtonContainer>
 								</Header>
 								<hr style={{ opacity: "0.4" }} />
 								<br />
-								<ButtonContainer>
-									{detailItem.writer._id !== user?._id ? (
-										<>
-											<SButton onClick={onScrapHandler}>스크랩</SButton>
-										</>
-									) : (
-										<>
-											<SButton href={`/board/update/${id}`}>수정</SButton>
-											<SButton>
-												<Popconfirm
-													title={"삭제 하시겠습니까?"}
-													onConfirm={onDeleteBoardHandler}
-												>
-													삭제
-												</Popconfirm>
-											</SButton>
-										</>
-									)}
-								</ButtonContainer>
+
 								<div className="ql-snow">
 									<Description className="ql-editor">
 										{ReactHtmlParser(detailItem.description)}

@@ -1,10 +1,19 @@
-import React, { useState } from "react"
-import { Button, Form, Input, PageHeader, message, Row, Col } from "antd"
+import {
+	Col,
+	Row,
+	Input,
+	Form,
+	Popconfirm,
+	Button,
+	message,
+	PageHeader,
+} from "antd"
+import { useHistory } from "react-router"
+import React, { useCallback, useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
-import { useHistory } from "react-router-dom"
-import { useDispatch } from "react-redux"
-import { registerUser } from "../../../_actions/user_action"
-
+import { auth, updateUser } from "../../../../_actions/user_action"
+import Loader from "../../../modules/Loader"
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -26,50 +35,70 @@ const SInput = styled(Input)`
 
 const SButton = styled(Button)`
 	width: 100%;
+	margin-bottom: 10px;
 	height: 3rem;
 	border-radius: 10px;
 `
-const RegisterPage = () => {
-	const dispatch = useDispatch()
+const UserUpdatePage = () => {
 	const history = useHistory()
+	const dispatch = useDispatch()
+	const userState = useSelector((state) => state.user)
+	const userinfo = userState.userData
+
 	const [name, setName] = useState("")
-	const [email, setEmail] = useState("")
 	const [company, setCompany] = useState("")
 	const [password, setPassword] = useState("")
 	const [confirmPassword, setConfirmPassword] = useState("")
+	const [loading, setLoading] = useState(null)
+
+	const getUsers = useCallback(() => {
+		setLoading(true)
+		dispatch(auth()).then((res) => {
+			try {
+				setName(res.payload.name)
+				setCompany(res.payload.company)
+				setLoading(false)
+			} catch (e) {
+				console.log(e)
+			}
+		})
+	}, [dispatch])
+	console.log(name)
+	useEffect(() => {
+		getUsers()
+	}, [getUsers])
 
 	const onSubmitHandler = () => {
 		if (password !== confirmPassword) {
 			return message.error("비밀번호가 일치하지 않습니다.")
 		} else {
 			let body = {
+				id: userinfo._id,
 				name,
-				email,
 				company,
 				password,
 			}
-			dispatch(registerUser(body)).then((res) => {
-				if (res.payload.err) {
-					if (res.payload.err.code === 11000) {
-						return message.error("해당 이메일이 이미 존재합니다.")
-					}
-				}
-
+			dispatch(updateUser(body)).then((res) => {
 				if (res.payload.success) {
-					history.push("/login")
+					message.success("정보가 변경 되었습니다.")
+					history.push("/userinfo")
 				}
 			})
 		}
+	}
+
+	if (loading) {
+		return <Loader />
 	}
 
 	return (
 		<Row justify="center">
 			<Col xs={20} md={8} lg={5} xl={5}>
 				<Container>
-					<PageHeader title={"회원가입"} />
+					<PageHeader title={"프로필 수정"} />
 					<SForm layout="vertical" onFinish={onSubmitHandler}>
 						<Form.Item
-							name="username"
+							name="name"
 							rules={[
 								{
 									required: true,
@@ -85,22 +114,7 @@ const RegisterPage = () => {
 								placeholder="이름"
 							/>
 						</Form.Item>
-						<Form.Item
-							name="email"
-							rules={[
-								{
-									required: true,
-									message: "이메일을 입력 해주세요.",
-								},
-							]}
-						>
-							<SInput
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								type="email"
-								placeholder="이메일"
-							/>
-						</Form.Item>
+
 						<Form.Item
 							name="company"
 							rules={[
@@ -158,12 +172,18 @@ const RegisterPage = () => {
 							/>
 						</Form.Item>
 						<br />
-						<SButton htmlType="submit">회원가입</SButton>
 					</SForm>
 				</Container>
+
+				<SButton htmlType="submit">
+					<Popconfirm title={"수정 하시겠습니까?"} onConfirm={onSubmitHandler}>
+						수정
+					</Popconfirm>
+				</SButton>
+				<SButton onClick={() => history.push("/userinfo")}>취소</SButton>
 			</Col>
 		</Row>
 	)
 }
 
-export default RegisterPage
+export default UserUpdatePage

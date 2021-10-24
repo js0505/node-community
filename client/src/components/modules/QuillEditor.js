@@ -60,15 +60,9 @@ const QuillEditor = ({ value, onChange, getS3KeyFunction }) => {
 		() => ({
 			toolbar: {
 				container: [
-					["bold", "italic", "underline", "strike"],
+					["bold", "italic", "strike"],
 					[{ size: ["small", false, "large", "huge"] }, { color: [] }],
-					[
-						{ list: "ordered" },
-						{ list: "bullet" },
-						{ indent: "-1" },
-						{ indent: "+1" },
-						{ align: [] },
-					],
+					[{ list: "ordered" }, { list: "bullet" }, { align: [] }],
 					["image"],
 				],
 				handlers: {
@@ -79,16 +73,14 @@ const QuillEditor = ({ value, onChange, getS3KeyFunction }) => {
 		[]
 	)
 	return (
-		<>
-			<ReactQuill
-				ref={quillRef}
-				value={value}
-				onChange={onChange}
-				modules={modules}
-				placeholde={"내용을 입력하세요"}
-				theme="snow"
-			/>
-		</>
+		<ReactQuill
+			ref={quillRef}
+			value={value}
+			onChange={onChange}
+			modules={modules}
+			placeholder={"내용을 입력하세요"}
+			theme="snow"
+		/>
 	)
 }
 

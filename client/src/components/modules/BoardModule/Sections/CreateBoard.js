@@ -77,7 +77,7 @@ const CreateBoard = () => {
 
 	return (
 		<Row justify="center">
-			<Col xs={24} md={22} lg={20} xl={20}>
+			<Col xs={24} md={22} lg={16} xl={16}>
 				<Container>
 					<Form onSubmit={onSubmitHandler}>
 						<SInput

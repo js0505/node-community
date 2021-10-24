@@ -27,6 +27,7 @@ const userSchema = mongoose.Schema({
 		default: 2,
 	},
 	image: String,
+	company: String,
 	token: {
 		type: String,
 	},
@@ -58,6 +59,8 @@ userSchema.pre("save", function (next) {
 		})
 	}
 })
+
+
 // 입력받은 비밀번호와 기존 비밀번호를 비교하는 메소드
 userSchema.methods.comparePassword = function (plainPassword, callback) {
 	// plainPassword = 12345, 암호화된 비밀번호 = 0fj29jf0e029f9

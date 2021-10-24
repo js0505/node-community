@@ -7,10 +7,21 @@ const registerUser = (req, res) => {
 	const user = new User(req.body)
 
 	user.save((err, userInfo) => {
-		console.log("errrrr", err)
 		if (err) return res.json({ success: false, err })
 		return res.status(200).json({
 			success: true,
+		})
+	})
+}
+
+const updateUserInfo = (req, res) => {
+	User.findById(req.body.id, (err, result) => {
+		result.name = req.body.name
+		result.company = req.body.company
+		result.password = req.body.password
+		result.save().then((result) => {
+			if (err) return res.status(400).json({ success: false, err })
+			return res.status(200).json({ success: true, result })
 		})
 	})
 }
@@ -66,6 +77,8 @@ const authInfo = (req, res) => {
 		isAdmin: req.user.role === 1 ? true : false,
 		isAuth: true,
 		email: req.user.email,
+		password: req.user.password,
+		company: req.user.company,
 		name: req.user.name,
 		role: req.user.role,
 		image: req.user.image,
@@ -90,4 +103,5 @@ module.exports = {
 	loginUser,
 	authInfo,
 	logoutUser,
+	updateUserInfo,
 }

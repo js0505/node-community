@@ -18,6 +18,8 @@ const SHeader = styled(Header)`
 	margin-top: 15px;
 	margin-bottom: 15px;
 	background-color: #f0f2f5;
+	/* 모바일 들어가면 패딩값 조절 */
+	/* padding: 0; */
 `
 
 const SLayout = styled(Layout)`
@@ -87,6 +89,9 @@ const NavBar = () => {
 										<a href="/admin">관리자 페이지</a>
 									</Menu.Item>
 								)}
+								<Menu.Item>
+									<a href={user.userData && `/userinfo`}>내 프로필</a>
+								</Menu.Item>
 								<Menu.Item>
 									<a href={user.userData && `/scrap/${user.userData._id}`}>
 										스크랩
