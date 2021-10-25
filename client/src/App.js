@@ -1,5 +1,7 @@
 import React from "react"
+import ReactGa from "react-ga"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { createBrowserHistory } from "history"
 import Auth from "./hoc/auth"
 import LandingPage from "./components/views/LandingPage/"
 import LoginPage from "./components/views/LoginPage/LoginPage"
@@ -18,8 +20,14 @@ import UserAdmissionEdit from "./components/views/AdminPage/Sections/UserAdmissi
 import UserRoleEdit from "./components/views/AdminPage/Sections/UserRoleEdit"
 
 const App = () => {
+	const history = createBrowserHistory()
+	const TRACKING_ID = process.env.REACT_APP_TRACKING_ID
+	console.log(TRACKING_ID)
+	ReactGa.initialize(TRACKING_ID)
+	ReactGa.pageview(history.location.pathname + history.location.search)
+
 	return (
-		<Router>
+		<Router history={history}>
 			<NavBar />
 			<Switch>
 				<Route exact path="/" component={Auth(LandingPage, null)} />

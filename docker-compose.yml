@@ -7,6 +7,8 @@ services:
       - ./client:/app
     stdin_open: true
     mem_limit: 256m
+    environment:
+      REACT_APP_TRACKING_ID: $REACT_APP_TRACKING_ID
   nginx:
     restart: always
     image: shinjs0505/node-community-nginx
