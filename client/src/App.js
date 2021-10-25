@@ -19,9 +19,11 @@ import UserUpdatePage from "./components/views/UserInfoPage/Sections/UserUpdateP
 import UserAdmissionEdit from "./components/views/AdminPage/Sections/UserAdmissionEdit"
 import UserRoleEdit from "./components/views/AdminPage/Sections/UserRoleEdit"
 
+import config from "./config/key"
+
 const App = () => {
 	const history = createBrowserHistory()
-	const TRACKING_ID = `${process.env.REACT_APP_TRACKING_ID}`
+	const TRACKING_ID = config.REACT_APP_TRACKING_ID
 
 	ReactGa.initialize(TRACKING_ID)
 	ReactGa.pageview(history.location.pathname + history.location.search)
